@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -98,6 +98,14 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.1.4 =
+* Correction : les mises à jour n'étaient pas détectées sur hébergement
+  mutualisé. L'API GitHub limite les requêtes anonymes à 60 par heure et par
+  adresse IP, quota partagé par tous les sites du même serveur. Pour un dépôt
+  public, Roga ne passe plus par l'API : il lit la redirection de
+  `releases/latest` et télécharge `roga-x.y.z.zip` à son adresse prévisible.
+  L'API reste utilisée uniquement quand un token est configuré (dépôt privé).
 
 = 1.1.3 =
 * Version de test du canal de mise à jour GitHub. Aucun changement fonctionnel.

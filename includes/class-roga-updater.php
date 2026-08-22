@@ -90,6 +90,19 @@ class ROGA_Updater {
 			return null;
 		}
 
+		$token = self::token();
+
+		// Public repository: avoid the REST API altogether. Its anonymous quota
+		// (60 requests per hour per IP) is shared by every site behind the same
+		// outgoing address, which on shared hosting is exhausted most of the time.
+		if ( ! $token ) {
+			$release = self::latest_release_public( $repo );
+			if ( $release ) {
+				set_site_transient( self::CACHE_KEY, $release, self::CACHE_LIFETIME );
+				return $release;
+			}
+		}
+
 		$args = array(
 			'timeout' => 12,
 			'headers' => array(
@@ -98,7 +111,6 @@ class ROGA_Updater {
 			),
 		);
 
-		$token = self::token();
 		if ( $token ) {
 			$args['headers']['Authorization'] = 'Bearer ' . $token;
 		}
@@ -152,6 +164,63 @@ class ROGA_Updater {
 		set_site_transient( self::CACHE_KEY, $release, self::CACHE_LIFETIME );
 
 		return $release;
+	}
+
+	/**
+	 * Resolves the latest release of a public repository without the REST API.
+	 *
+	 * github.com/{repo}/releases/latest answers with a redirect to the tag page;
+	 * the tag gives the version and the asset lives at a predictable URL.
+	 *
+	 * @param string $repo owner/name.
+	 * @return array|null
+	 */
+	private static function latest_release_public( $repo ) {
+		$response = wp_remote_head(
+			'https://github.com/' . $repo . '/releases/latest',
+			array(
+				'timeout'     => 12,
+				'redirection' => 0,
+				'headers'     => array( 'User-Agent' => 'Roga/' . ROGA_VERSION . '; ' . home_url( '/' ) ),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return null;
+		}
+
+		$code     = (int) wp_remote_retrieve_response_code( $response );
+		$location = (string) wp_remote_retrieve_header( $response, 'location' );
+
+		if ( $code < 300 || $code > 399 || ! preg_match( '#/releases/tag/([^/?\#]+)#', $location, $m ) ) {
+			return null;
+		}
+
+		$tag     = rawurldecode( $m[1] );
+		$version = ltrim( $tag, 'vV' );
+		$name    = basename( $repo );
+
+		// Release notes: the changelog block of readme.txt on the tag, best effort.
+		$notes  = '';
+		$readme = wp_remote_get(
+			'https://raw.githubusercontent.com/' . $repo . '/' . rawurlencode( $tag ) . '/readme.txt',
+			array( 'timeout' => 8 )
+		);
+		if ( ! is_wp_error( $readme ) && 200 === (int) wp_remote_retrieve_response_code( $readme ) ) {
+			$body = wp_remote_retrieve_body( $readme );
+			if ( preg_match( '/== Changelog ==\s*(.+)$/s', $body, $c ) ) {
+				$notes = trim( $c[1] );
+			}
+		}
+
+		return array(
+			'version'   => $version,
+			'name'      => $name . ' ' . $version,
+			'notes'     => $notes,
+			'published' => '',
+			'package'   => 'https://github.com/' . $repo . '/releases/download/' . rawurlencode( $tag ) . '/' . $name . '-' . $version . '.zip',
+			'private'   => false,
+		);
 	}
 
 	/**

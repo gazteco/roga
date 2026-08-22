@@ -1,0 +1,408 @@
+/* Roga by Gazte Co. — conversational front end. */
+
+.roga-root {
+	--roga-bg: #ffffff;
+	--roga-text: #1d1d1f;
+	--roga-accent: #0d493b;
+	--roga-onaccent: #ffffff;
+	--roga-muted: #6b7280;
+	--roga-radius: 10px;
+
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 40px 20px 64px;
+	background: var(--roga-bg);
+	color: var(--roga-text);
+	font-size: 17px;
+	line-height: 1.5;
+	border-radius: var(--roga-radius);
+	overflow: hidden;
+}
+
+.roga-root *,
+.roga-root *::before,
+.roga-root *::after {
+	box-sizing: border-box;
+}
+
+.roga-stage {
+	width: 100%;
+	max-width: 640px;
+}
+
+.roga-card {
+	animation: roga-in 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes roga-in {
+	from { opacity: 0; transform: translateY(18px); }
+	to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.roga-card { animation: none; }
+}
+
+/* Question head */
+
+.roga-q {
+	display: flex;
+	gap: 10px;
+	align-items: baseline;
+}
+
+.roga-q-num {
+	flex: 0 0 auto;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--roga-accent);
+	opacity: 0.8;
+}
+
+.roga-q-label,
+.roga-title {
+	margin: 0;
+	font-size: 26px;
+	line-height: 1.25;
+	font-weight: 600;
+	color: var(--roga-text);
+}
+
+.roga-title { font-size: 30px; }
+
+.roga-req { color: #c0392b; }
+
+.roga-desc {
+	margin: 10px 0 0;
+	color: var(--roga-muted);
+	font-size: 15px;
+	white-space: pre-line;
+}
+
+.roga-hint {
+	margin: 8px 0 0;
+	font-size: 13px;
+	color: var(--roga-muted);
+}
+
+.roga-control { margin-top: 22px; }
+
+/* Choices */
+
+.roga-opt {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	margin: 0 0 10px;
+	padding: 13px 16px;
+	font: inherit;
+	font-size: 16px;
+	text-align: left;
+	color: var(--roga-text);
+	background: transparent;
+	border: 1.5px solid color-mix(in srgb, var(--roga-accent) 35%, transparent);
+	border-radius: var(--roga-radius);
+	cursor: pointer;
+	transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.roga-opt:hover {
+	color: var(--roga-text);
+	background: color-mix(in srgb, var(--roga-accent) 8%, transparent);
+	border-color: var(--roga-accent);
+	box-shadow: none;
+}
+
+.roga-opt:focus-visible {
+	outline: 2px solid var(--roga-accent);
+	outline-offset: 2px;
+}
+
+.roga-opt.is-selected {
+	background: var(--roga-accent);
+	border-color: var(--roga-accent);
+	color: var(--roga-onaccent);
+}
+
+.roga-opt.is-selected .roga-opt-key {
+	background: color-mix(in srgb, var(--roga-onaccent) 22%, transparent);
+	border-color: transparent;
+	color: var(--roga-onaccent);
+}
+
+.roga-opt-key {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	font-size: 12px;
+	font-weight: 600;
+	border: 1px solid color-mix(in srgb, var(--roga-accent) 35%, transparent);
+	border-radius: 5px;
+	color: var(--roga-accent);
+}
+
+.roga-opt-label { flex: 1 1 auto; }
+
+.roga-other-wrap {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 6px 16px 6px 16px;
+	border: 1.5px dashed color-mix(in srgb, var(--roga-accent) 35%, transparent);
+	border-radius: var(--roga-radius);
+}
+
+.roga-other { border: 0 !important; padding-left: 0 !important; }
+
+/* Text inputs */
+
+.roga-input {
+	width: 100%;
+	padding: 12px 4px;
+	font: inherit;
+	font-size: 20px;
+	color: var(--roga-text);
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid color-mix(in srgb, var(--roga-accent) 30%, transparent);
+	border-radius: 0;
+	transition: border-color 140ms ease;
+}
+
+.roga-input:focus {
+	outline: none;
+	border-bottom-color: var(--roga-accent);
+}
+
+.roga-input::placeholder { color: color-mix(in srgb, var(--roga-muted) 70%, transparent); }
+
+textarea.roga-input { resize: vertical; line-height: 1.5; }
+
+select.roga-input { padding-right: 24px; }
+
+.roga-legal {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.roga-legal input { margin-top: 4px; }
+
+/* Navigation */
+
+.roga-nav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+	margin-top: 26px;
+}
+
+.roga-btn {
+	display: inline-flex;
+	align-items: center;
+	padding: 11px 22px;
+	font: inherit;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--roga-onaccent);
+	background: var(--roga-accent);
+	border: 1.5px solid var(--roga-accent);
+	border-radius: var(--roga-radius);
+	cursor: pointer;
+	transition: filter 140ms ease, transform 140ms ease;
+}
+
+.roga-btn:hover { filter: brightness(1.12); color: var(--roga-onaccent); background: var(--roga-accent); box-shadow: none; }
+.roga-btn:active { transform: translateY(1px); }
+
+.roga-btn:focus-visible {
+	outline: 2px solid var(--roga-accent);
+	outline-offset: 3px;
+}
+
+.roga-btn-ghost {
+	color: var(--roga-accent);
+	background: transparent;
+	border-color: transparent;
+	font-weight: 500;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.roga-kbd-hint {
+	font-size: 13px;
+	color: var(--roga-muted);
+}
+
+.roga-error {
+	margin: 12px 0 0;
+	min-height: 1em;
+	font-size: 14px;
+	color: #c0392b;
+}
+
+.roga-rgpd {
+	margin-top: 18px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--roga-muted);
+}
+
+/* Progress */
+
+.roga-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 4px;
+	background: color-mix(in srgb, var(--roga-accent) 14%, transparent);
+}
+
+.roga-progress-fill {
+	height: 100%;
+	width: 0;
+	background: var(--roga-accent);
+	transition: width 260ms ease;
+}
+
+/* Thank you */
+
+.roga-thankyou { text-align: center; }
+
+.roga-check-mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	margin-bottom: 18px;
+	font-size: 28px;
+	color: var(--roga-onaccent);
+	background: var(--roga-accent);
+	border-radius: 50%;
+}
+
+.roga-welcome .roga-btn { margin-top: 24px; }
+
+/* Theme hardening (1.1.2)
+   Beaucoup de thèmes stylent globalement `button:hover/focus/active` et
+   `input[type=text]` (couleur, hauteur fixe, margin-bottom). Ces règles, plus
+   spécifiques, garantissent le rendu de Roga quel que soit le thème. */
+
+.roga-root button.roga-opt:hover,
+.roga-root button.roga-opt:focus,
+.roga-root button.roga-opt:focus-visible,
+.roga-root button.roga-opt:active {
+	color: var(--roga-text);
+	background: color-mix(in srgb, var(--roga-accent) 8%, transparent);
+	border-color: var(--roga-accent);
+	box-shadow: none;
+	transform: none;
+}
+
+.roga-root button.roga-opt.is-selected,
+.roga-root button.roga-opt.is-selected:hover,
+.roga-root button.roga-opt.is-selected:focus,
+.roga-root button.roga-opt.is-selected:active {
+	color: var(--roga-onaccent);
+	background: var(--roga-accent);
+	border-color: var(--roga-accent);
+	box-shadow: none;
+}
+
+.roga-root button.roga-btn,
+.roga-root button.roga-btn:hover,
+.roga-root button.roga-btn:focus,
+.roga-root button.roga-btn:active {
+	height: auto;
+	color: var(--roga-onaccent);
+	background: var(--roga-accent);
+	border-color: var(--roga-accent);
+	box-shadow: none;
+}
+
+.roga-root button.roga-btn-ghost,
+.roga-root button.roga-btn-ghost:hover,
+.roga-root button.roga-btn-ghost:focus,
+.roga-root button.roga-btn-ghost:active {
+	color: var(--roga-accent);
+	background: transparent;
+	border-color: transparent;
+	box-shadow: none;
+	filter: none;
+}
+
+.roga-root input.roga-input,
+.roga-root input.roga-input[type="text"],
+.roga-root input.roga-input[type="email"],
+.roga-root input.roga-input[type="tel"],
+.roga-root input.roga-input[type="number"],
+.roga-root input.roga-input[type="date"],
+.roga-root select.roga-input,
+.roga-root textarea.roga-input {
+	display: block;
+	height: auto;
+	min-height: 0;
+	max-width: none;
+	margin: 0;
+	padding: 12px 4px;
+	border: 0;
+	border-bottom: 2px solid color-mix(in srgb, var(--roga-accent) 30%, transparent);
+	border-radius: 0;
+	box-shadow: none;
+	line-height: 1.4;
+	background: transparent;
+	color: var(--roga-text);
+}
+
+.roga-root input.roga-input:focus,
+.roga-root select.roga-input:focus,
+.roga-root textarea.roga-input:focus {
+	outline: none;
+	border-bottom-color: var(--roga-accent);
+	box-shadow: none;
+}
+
+.roga-root .roga-other-wrap input.roga-other {
+	margin: 0;
+	padding: 12px 4px 12px 0;
+	border: 0;
+	border-radius: 0;
+}
+
+/* Small screens */
+
+@media (max-width: 600px) {
+	.roga-root { padding: 28px 16px 56px; font-size: 16px; }
+	.roga-q-label { font-size: 21px; }
+	.roga-title { font-size: 24px; }
+	.roga-input { font-size: 17px; }
+	.roga-opt-key { display: none; }
+}
+
+/* No-JavaScript fallback */
+
+.roga-fallback { max-width: 640px; text-align: left; }
+.roga-fallback label { font-weight: 500; }
+.roga-fallback input[type="text"],
+.roga-fallback input[type="email"],
+.roga-fallback input[type="tel"],
+.roga-fallback input[type="date"],
+.roga-fallback input[type="number"],
+.roga-fallback textarea,
+.roga-fallback select {
+	width: 100%;
+	padding: 8px;
+	margin-top: 4px;
+}

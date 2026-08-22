@@ -1,0 +1,54 @@
+name: Release
+
+# Tag a version and this builds the installable zip and attaches it to the
+# GitHub release. Every site running Roga then sees the update in
+# Dashboard → Updates within six hours, or immediately via "Vérifier les
+# mises à jour" on the Plugins screen.
+#
+# Usage:
+#   git tag v1.2.0 && git push origin v1.2.0
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Lint PHP
+        run: find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Check the tag matches the plugin header
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          HEADER=$(grep -m1 '^ \* Version:' roga.php | awk '{print $3}')
+          echo "tag=$TAG header=$HEADER"
+          if [ "$TAG" != "$HEADER" ]; then
+            echo "::error::Le tag ($TAG) ne correspond pas à la version du plugin ($HEADER)."
+            exit 1
+          fi
+
+      - name: Build the zip
+        run: |
+          mkdir -p build/roga
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'build' ./ build/roga/
+          cd build && zip -rq "roga-${GITHUB_REF_NAME#v}.zip" roga
+
+      - name: Publish the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/roga-*.zip
+          generate_release_notes: true

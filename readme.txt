@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -98,6 +98,9 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.1.3 =
+* Version de test du canal de mise à jour GitHub. Aucun changement fonctionnel.
 
 = 1.1.2 =
 * Correction : texte blanc sur fond clair au survol des options, lorsque le

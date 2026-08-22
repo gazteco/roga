@@ -3,7 +3,7 @@
  * Plugin Name:       Roga Forms
  * Plugin URI:        https://gazteco.fr/roga
  * Description:       Conversational forms that ask one question at a time: branching logic, stored submissions, notifications and acknowledgements. No ads, no limits, no third-party calls.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Gazte Co.
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ROGA_VERSION', '1.1.2' );
+define( 'ROGA_VERSION', '1.1.3' );
 define( 'ROGA_FILE', __FILE__ );
 define( 'ROGA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ROGA_URL', plugin_dir_url( __FILE__ ) );

@@ -101,13 +101,14 @@
 
 .roga-opt {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: 12px;
 	width: 100%;
 	margin: 0 0 10px;
 	padding: 13px 16px;
 	font: inherit;
 	font-size: 16px;
+	line-height: 1.4;
 	text-align: left;
 	color: var(--roga-text);
 	background: transparent;
@@ -115,6 +116,9 @@
 	border-radius: var(--roga-radius);
 	cursor: pointer;
 	transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+	/* Garde-fou : evite tout debordement visuel du contenu hors du cadre
+	   (bug observe sur mobile avec options multi-lignes). */
+	overflow: hidden;
 }
 
 .roga-opt:hover {
@@ -471,23 +475,20 @@ select.roga-input { padding-right: 24px; }
 
 @media (max-width: 600px) {
 	.roga-review-row {
-		/* Layout : label au-dessus, valeur en dessous, crayon en absolute
-		   a droite (ne prend pas de hauteur dans le flow). */
+		/* Layout ultra-compact : label et valeur colles, crayon en absolute. */
 		display: block;
 		gap: 0;
-		padding: 8px 40px 8px 2px;
+		padding: 6px 40px 6px 2px;
 		position: relative;
 	}
 	.roga-review-label {
 		display: block;
-		font-size: 0.78em;
+		font-size: 0.75em;
 		color: var(--roga-muted);
 		font-weight: 600;
-		margin-bottom: 2px;
-		line-height: 1.3;
+		margin: 0;
+		line-height: 1.2;
 	}
-	/* On revient a un block simple : la valeur occupe toute la largeur du
-	   padding disponible (40px reserves a droite pour le crayon). */
 	.roga-review-value {
 		display: block;
 	}
@@ -498,18 +499,16 @@ select.roga-input { padding-right: 24px; }
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		line-height: 1.35;
+		line-height: 1.3;
 		min-width: 0;
 	}
-	/* Bouton Modifier = petit cercle icone flottant a droite, aligne
-	   verticalement sur la row entiere. */
 	.roga-review-edit {
 		position: absolute;
 		right: 2px;
 		top: 50%;
 		transform: translateY(-50%);
-		width: 30px;
-		height: 30px;
+		width: 28px;
+		height: 28px;
 		border-radius: 50%;
 		padding: 0;
 		border: 1px solid color-mix(in srgb, var(--roga-accent) 30%, transparent) !important;

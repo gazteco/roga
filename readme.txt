@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.9
+Stable tag: 1.3.10
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,19 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.10 =
+* Correction : sur mobile, quand une option de question à choix contenait
+  du texte multi-ligne, son contenu pouvait déborder visuellement au-delà
+  de la bordure supérieure du cadre suivant, donnant l'impression que les
+  deux options se chevauchaient. Le layout flex est passé en align-items:
+  flex-start avec un line-height explicite de 1.4, et un garde-fou
+  overflow: hidden a été ajouté sur .roga-opt pour empêcher tout
+  débordement futur, quelle que soit la source du problème.
+* Mobile : compaction supplémentaire de la synthèse. Padding réduit à 6 px,
+  label à 0.75em avec line-height 1.2, marge nulle entre label et valeur,
+  crayon à 28 px. Chaque ligne fait à peu près 40 px de hauteur pour une
+  réponse courte, soit environ un tiers de moins que la version précédente.
 
 = 1.3.9 =
 * Mobile : chaque ligne de la synthèse est nettement plus compacte. Le

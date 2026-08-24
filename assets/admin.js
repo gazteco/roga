@@ -589,6 +589,10 @@
 		box.appendChild( el( 'h3', { text: 'Bouton d\'envoi' } ) );
 		box.appendChild( field( 'Libellé', input( state.settings.submit_label, function ( v ) { state.settings.submit_label = v; } ) ) );
 
+		box.appendChild( el( 'div', { class: 'roga-field' }, [
+			checkbox( 'Afficher un écran de vérification des réponses avant l\'envoi', state.settings.review_before_send !== false, function ( v ) { state.settings.review_before_send = v; } ),
+		] ) );
+
 		box.appendChild( field(
 			'Mention RGPD',
 			textarea( state.settings.rgpd_notice, function ( v ) { state.settings.rgpd_notice = v; }, 3 ),

@@ -84,6 +84,10 @@ class ROGA_Render {
 					'error'     => __( 'L\'envoi a échoué. Merci de réessayer dans un instant.', 'roga' ),
 					'multiHint' => __( 'Plusieurs réponses possibles', 'roga' ),
 					'progress'  => __( '%s%% complété', 'roga' ),
+					'reviewTitle' => __( 'Vérifiez vos réponses', 'roga' ),
+					'reviewDesc'  => __( 'Cliquez sur « Modifier » pour changer une réponse avant l\'envoi.', 'roga' ),
+					'edit'        => __( 'Modifier', 'roga' ),
+					'empty'       => __( '(non renseigné)', 'roga' ),
 				),
 			)
 		);
@@ -99,6 +103,7 @@ class ROGA_Render {
 			'thankyou' => $config['thankyou'],
 			'fields'   => $config['fields'],
 			'submit'   => $config['settings']['submit_label'],
+			'review'   => ! empty( $config['settings']['review_before_send'] ),
 			'rgpd'     => $config['settings']['rgpd_notice'],
 			'colors'   => $config['settings']['colors'],
 		);

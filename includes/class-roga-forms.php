@@ -93,6 +93,7 @@ class ROGA_Forms {
 			'fields'   => array(),
 			'settings' => array(
 				'submit_label'  => __( 'Envoyer', 'roga' ),
+				'review_before_send' => true,
 				'colors'        => array(
 					'bg'      => '#ffffff',
 					'text'    => '#1d1d1f',
@@ -304,6 +305,7 @@ class ROGA_Forms {
 
 		$out['settings'] = array(
 			'submit_label'   => sanitize_text_field( $s['submit_label'] ),
+			'review_before_send' => isset( $s['review_before_send'] ) ? ! empty( $s['review_before_send'] ) : true,
 			'colors'         => array(
 				'bg'       => self::sanitize_color( $s['colors']['bg'], $def['colors']['bg'] ),
 				'text'     => self::sanitize_color( $s['colors']['text'], $def['colors']['text'] ),

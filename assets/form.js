@@ -82,6 +82,12 @@
 		var answers = {};
 		var step    = config.welcome && config.welcome.enabled ? -1 : 0;
 		var sending = false;
+		// Sentinel value used for the review screen. Sits after every real field
+		// so navigation logic keeps working without a separate flag.
+		var REVIEW  = fields.length;
+		// When the visitor edits an answer from the review, the next validation
+		// should send them back to the review instead of the following question.
+		var returnToReview = false;
 
 		root.innerHTML = '';
 
@@ -96,15 +102,27 @@
 		}
 
 		/**
-		 * Moves forward to the next visible question, or submits.
+		 * Moves forward to the next visible question, or to the review screen,
+		 * or submits directly when the review is disabled.
 		 */
 		function next() {
+			if ( returnToReview ) {
+				returnToReview = false;
+				step = REVIEW;
+				draw();
+				return;
+			}
 			var i = step + 1;
 			while ( i < fields.length && ! isVisible( fields[ i ], answers ) ) {
 				i++;
 			}
 			if ( i >= fields.length ) {
-				submit();
+				if ( false !== config.review ) {
+					step = REVIEW;
+					draw();
+				} else {
+					submit();
+				}
 				return;
 			}
 			step = i;
@@ -112,6 +130,26 @@
 		}
 
 		function back() {
+			if ( step === REVIEW ) {
+				// Coming back from the review lands on the last visible question.
+				var last = -1;
+				for ( var j = 0; j < fields.length; j++ ) {
+					if ( isVisible( fields[ j ], answers ) ) {
+						last = j;
+					}
+				}
+				step = last < 0 ? ( config.welcome && config.welcome.enabled ? -1 : 0 ) : last;
+				draw();
+				return;
+			}
+			// If the visitor opened this question via the review's Edit link,
+			// Retour cancels the edit and goes straight back to the review.
+			if ( returnToReview ) {
+				returnToReview = false;
+				step = REVIEW;
+				draw();
+				return;
+			}
 			var i = step - 1;
 			while ( i >= 0 && ! isVisible( fields[ i ], answers ) ) {
 				i--;
@@ -125,6 +163,9 @@
 			var done = list.filter( function ( f, i ) {
 				return fields.indexOf( f ) < step;
 			} ).length;
+			if ( step === REVIEW ) {
+				done = list.length;
+			}
 			var pct = list.length ? Math.round( ( done / list.length ) * 100 ) : 0;
 			bar.firstChild.style.width = pct + '%';
 			bar.setAttribute( 'aria-valuenow', String( pct ) );
@@ -199,6 +240,80 @@
 			root.scrollIntoView( { behavior: 'smooth', block: 'center' } );
 		}
 
+		/**
+		 * Formats one answer for display on the review screen.
+		 * Kept plain-text: linebreaks preserved via CSS, no HTML injected.
+		 */
+		function formatAnswer( field ) {
+			var v = answers[ field.id ];
+			if ( 'checkbox' === field.type ) {
+				var arr = Array.isArray( v ) ? v : [];
+				return arr.length ? arr.join( ', ' ) : '';
+			}
+			return v === undefined || v === null ? '' : String( v );
+		}
+
+		function drawReview() {
+			var card = el( 'div', { class: 'roga-card roga-review' } );
+
+			card.appendChild( el( 'h2', { class: 'roga-title', text: T.reviewTitle || 'Vérifiez vos réponses' } ) );
+			card.appendChild( el( 'p', { class: 'roga-desc', text: T.reviewDesc || '' } ) );
+
+			var list = el( 'dl', { class: 'roga-review-list' } );
+			var visible = visibleFields();
+
+			visible.forEach( function ( field ) {
+				var row  = el( 'div', { class: 'roga-review-row' } );
+				var text = formatAnswer( field );
+
+				row.appendChild( el( 'dt', { class: 'roga-review-label', text: field.label || '' } ) );
+
+				var body = el( 'dd', { class: 'roga-review-value' } );
+				body.appendChild( el( 'span', {
+					class: 'roga-review-answer' + ( text ? '' : ' is-empty' ),
+					text: text || ( T.empty || '(non renseigné)' ),
+				} ) );
+				body.appendChild( el( 'button', {
+					type: 'button',
+					class: 'roga-review-edit',
+					text: T.edit || 'Modifier',
+					onclick: ( function ( f ) {
+						return function () {
+							returnToReview = true;
+							step = fields.indexOf( f );
+							draw();
+						};
+					} )( field ),
+				} ) );
+
+				row.appendChild( body );
+				list.appendChild( row );
+			} );
+
+			card.appendChild( list );
+
+			var nav = el( 'div', { class: 'roga-nav' } );
+			nav.appendChild( el( 'button', {
+				type: 'button',
+				class: 'roga-btn',
+				text: config.submit || T.ok || 'Envoyer',
+				onclick: submit,
+			} ) );
+			nav.appendChild( el( 'button', {
+				type: 'button',
+				class: 'roga-btn roga-btn-ghost',
+				text: '↑ ' + ( T.back || 'Retour' ),
+				onclick: back,
+			} ) );
+			card.appendChild( nav );
+
+			if ( config.rgpd ) {
+				card.appendChild( el( 'p', { class: 'roga-rgpd', text: config.rgpd } ) );
+			}
+
+			stage.appendChild( card );
+		}
+
 		function drawQuestion() {
 			var field = fields[ step ];
 			var card  = el( 'div', { class: 'roga-card' } );
@@ -225,13 +340,18 @@
 			card.appendChild( error );
 
 			var isLast = ! hasNextVisible();
+			// When the review screen is disabled, the last question doubles as
+			// the send action, so we surface the submit label directly.
+			var lastLabel = isLast && false === config.review
+				? ( config.submit || T.ok )
+				: T.ok;
 			var nav    = el( 'div', { class: 'roga-nav' } );
 
 			nav.appendChild(
 				el( 'button', {
 					type: 'button',
 					class: 'roga-btn',
-					text: isLast ? ( config.submit || T.ok ) : T.ok,
+					text: lastLabel,
 					onclick: function () {
 						var message = validate( field );
 						if ( message ) {
@@ -487,6 +607,8 @@
 			stage.innerHTML = '';
 			if ( step < 0 ) {
 				drawWelcome();
+			} else if ( step === REVIEW ) {
+				drawReview();
 			} else {
 				drawQuestion();
 			}
@@ -499,6 +621,15 @@
 					e.preventDefault();
 					step = -1;
 					next();
+				}
+				return;
+			}
+
+			// On the review screen, Enter sends the form.
+			if ( step === REVIEW ) {
+				if ( 'Enter' === e.key && 'TEXTAREA' !== e.target.tagName ) {
+					e.preventDefault();
+					submit();
 				}
 				return;
 			}

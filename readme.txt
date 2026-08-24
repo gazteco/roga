@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,13 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.3 =
+* Écran de vérification : le tableau utilise maintenant trois colonnes
+  distinctes (label, réponse, bouton Modifier) plutôt que deux, avec la
+  colonne libellé qui prend 45 % de la largeur au lieu de 34 %. Les
+  intitulés de questions un peu longs ne se coupent plus sur deux lignes,
+  et le bouton Modifier reste toujours parfaitement aligné à droite.
 
 = 1.3.2 =
 * Correction : sur certains thèmes (Workalley notamment), la première option

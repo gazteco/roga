@@ -353,11 +353,13 @@ select.roga-input { padding-right: 24px; }
 	margin: 0 0 24px;
 	padding: 0;
 	display: block;
+	width: 100%;
 }
 
 .roga-review-row {
 	display: grid;
-	grid-template-columns: minmax(140px, 34%) 1fr;
+	/* 3 colonnes : label 45%, valeur remplit le reste, bouton Modifier au bout. */
+	grid-template-columns: 45% 1fr auto;
 	gap: 16px;
 	padding: 12px 4px;
 	border: 0;
@@ -375,22 +377,23 @@ select.roga-input { padding-right: 24px; }
 	color: var(--roga-text);
 	line-height: 1.35;
 	font-size: 0.95em;
+	min-width: 0;
 }
 
+/* .roga-review-value est un <dd> requis par la semantique dl. On le neutralise
+   visuellement via display: contents pour que ses enfants (answer + edit)
+   participent directement au grid parent en tant que colonnes 2 et 3. */
 .roga-review-value {
-	margin: 0;
-	display: flex;
-	align-items: baseline;
-	gap: 12px;
-	flex-wrap: wrap;
+	display: contents;
 }
 
 .roga-review-answer {
-	flex: 1 1 200px;
 	color: var(--roga-text);
 	white-space: pre-wrap;
 	word-break: break-word;
+	overflow-wrap: anywhere;
 	line-height: 1.45;
+	min-width: 0;
 }
 
 .roga-review-answer.is-empty {
@@ -410,7 +413,8 @@ select.roga-input { padding-right: 24px; }
 	cursor: pointer;
 	text-decoration: underline;
 	text-underline-offset: 3px;
-	flex: 0 0 auto;
+	justify-self: end;
+	white-space: nowrap;
 }
 
 .roga-review-edit:hover,

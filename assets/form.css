@@ -332,6 +332,11 @@ select.roga-input { padding-right: 24px; }
 .roga-review {
 	/* On accepte que la card d\u00e9borde du padding vertical par defaut. */
 	padding-bottom: 0;
+	/* La synth\u00e8se contient un tableau : elle a besoin de toute la largeur
+	   disponible dans son container (contrairement aux questions simples
+	   limit\u00e9es \u00e0 640px pour la lisibilit\u00e9). */
+	max-width: none;
+	width: 100%;
 }
 
 .roga-review-header {

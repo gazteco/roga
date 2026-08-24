@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,13 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.4 =
+* Écran de vérification : la synthèse utilise maintenant toute la largeur
+  disponible dans son container (elle n'est plus limitée à 640 px comme
+  les écrans de questions). Sur une page large, le tableau récapitulatif
+  s'étire donc pleinement, ce qui laisse encore plus de place aux libellés
+  et aux réponses sans passer à la ligne.
 
 = 1.3.3 =
 * Écran de vérification : le tableau utilise maintenant trois colonnes

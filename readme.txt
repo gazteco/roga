@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,19 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.8 =
+* Mobile : sur l'écran de vérification, chaque réponse est désormais tronquée
+  à deux lignes maximum avec un ellipsis (…) au bout si elle est plus longue,
+  ce qui garde les lignes courtes. La réponse complète reste accessible en
+  cliquant Modifier.
+* Mobile : le bouton « Modifier » devient une petite icône crayon dans un
+  cercle discret à droite de la réponse. Il n'occupe plus une ligne dédiée
+  et libère de la hauteur verticale. Le libellé texte « Modifier » reste
+  utilisé en desktop et pour les lecteurs d'écran.
+* Le spacing entre les options d'une question à choix passe de 10 à 14 px
+  pour bien aérer les cadres, surtout sur mobile où les cadres pouvaient
+  paraître collés.
 
 = 1.3.7 =
 * Mobile : les modalités d'une question à choix passent en 15 px (au lieu

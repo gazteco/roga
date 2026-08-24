@@ -17,6 +17,10 @@
 				node.className = attrs[ key ];
 			} else if ( 'text' === key ) {
 				node.textContent = attrs[ key ];
+			} else if ( 'html' === key ) {
+				// Inline HTML : reserve aux markups internes contrôlés par le
+				// plugin (jamais de contenu utilisateur).
+				node.innerHTML = attrs[ key ];
 			} else if ( 0 === key.indexOf( 'on' ) ) {
 				node.addEventListener( key.slice( 2 ), attrs[ key ] );
 			} else if ( null !== attrs[ key ] && false !== attrs[ key ] ) {
@@ -287,7 +291,7 @@
 				body.appendChild( el( 'button', {
 					type: 'button',
 					class: 'roga-review-edit',
-					text: T.edit || 'Modifier',
+					'aria-label': T.edit || 'Modifier',
 					onclick: ( function ( f ) {
 						return function () {
 							returnToReview = true;
@@ -295,7 +299,16 @@
 							draw();
 						};
 					} )( field ),
-				} ) );
+				}, [
+					// Le libelle textuel est utilise en desktop, l'icone crayon
+					// prend le relais en mobile via CSS (media query).
+					el( 'span', { class: 'roga-review-edit-label', text: T.edit || 'Modifier' } ),
+					el( 'span', {
+						class: 'roga-review-edit-icon',
+						'aria-hidden': 'true',
+						html: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>',
+					} ),
+				] ) );
 
 				row.appendChild( body );
 				list.appendChild( row );

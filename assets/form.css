@@ -329,32 +329,52 @@ select.roga-input { padding-right: 24px; }
 
 /* Review screen */
 
-.roga-review .roga-title { margin-top: 0; }
-.roga-review .roga-desc  { margin-bottom: 24px; color: var(--roga-muted); }
+.roga-review {
+	/* On accepte que la card d\u00e9borde du padding vertical par defaut. */
+	padding-bottom: 0;
+}
+
+.roga-review-header {
+	margin-bottom: 20px;
+	padding-bottom: 16px;
+	border-bottom: 2px solid var(--roga-accent);
+}
+
+.roga-review .roga-title { margin: 0 0 6px; }
+.roga-review .roga-desc  { margin: 0 0 12px; color: var(--roga-muted); }
+
+.roga-review-top-actions {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
 
 .roga-review-list {
 	margin: 0 0 24px;
 	padding: 0;
-	display: grid;
-	gap: 12px;
+	display: block;
 }
 
 .roga-review-row {
 	display: grid;
-	grid-template-columns: minmax(140px, 32%) 1fr;
+	grid-template-columns: minmax(140px, 34%) 1fr;
 	gap: 16px;
-	padding: 14px 16px;
-	border: 1px solid color-mix(in srgb, var(--roga-muted) 25%, transparent);
-	border-radius: 10px;
-	background: color-mix(in srgb, var(--roga-bg) 92%, transparent);
-	align-items: start;
+	padding: 12px 4px;
+	border: 0;
+	border-bottom: 1px solid color-mix(in srgb, var(--roga-muted) 25%, transparent);
+	background: transparent;
+	border-radius: 0;
+	align-items: baseline;
 }
+
+.roga-review-row:last-child { border-bottom: 0; }
 
 .roga-review-label {
 	margin: 0;
 	font-weight: 600;
 	color: var(--roga-text);
-	line-height: 1.4;
+	line-height: 1.35;
+	font-size: 0.95em;
 }
 
 .roga-review-value {
@@ -370,7 +390,7 @@ select.roga-input { padding-right: 24px; }
 	color: var(--roga-text);
 	white-space: pre-wrap;
 	word-break: break-word;
-	line-height: 1.5;
+	line-height: 1.45;
 }
 
 .roga-review-answer.is-empty {
@@ -382,10 +402,10 @@ select.roga-input { padding-right: 24px; }
 	appearance: none;
 	background: transparent;
 	border: 0;
-	padding: 4px 6px;
+	padding: 2px 4px;
 	margin: 0;
 	font: inherit;
-	font-size: 0.92em;
+	font-size: 0.88em;
 	color: var(--roga-accent);
 	cursor: pointer;
 	text-decoration: underline;
@@ -399,10 +419,30 @@ select.roga-input { padding-right: 24px; }
 	outline: none;
 }
 
+/* Sticky footer : le bouton d'envoi reste toujours visible pendant le scroll. */
+.roga-review-footer {
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: 24px -32px 0;
+	padding: 14px 32px;
+	background: var(--roga-bg);
+	border-top: 1px solid color-mix(in srgb, var(--roga-muted) 30%, transparent);
+	box-shadow: 0 -6px 12px -6px rgba(0,0,0,.08);
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+	z-index: 5;
+}
+
 @media (max-width: 600px) {
 	.roga-review-row {
 		grid-template-columns: 1fr;
-		gap: 6px;
+		gap: 4px;
+		padding: 10px 2px;
 	}
-	.roga-review-label { font-size: 0.9em; color: var(--roga-muted); }
+	.roga-review-label { font-size: 0.85em; color: var(--roga-muted); font-weight: 600; }
+	.roga-review-footer { margin: 20px -16px 0; padding: 12px 16px; }
 }

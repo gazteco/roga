@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,15 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.1 =
+* Écran de vérification retravaillé : mise en page plus dense et plus nette
+  (séparateurs entre les lignes plutôt que cartes individuelles, bordures
+  droites, moins d'espacement vertical) pour réduire le scroll.
+* Le bouton d'envoi apparaît maintenant à deux endroits : en haut de la
+  synthèse, sous le titre, et dans un bandeau collé en bas de l'écran qui
+  reste visible pendant que le visiteur fait défiler ses réponses. Objectif :
+  ne jamais avoir à chercher où valider.
 
 = 1.3.0 =
 * Écran de vérification avant l'envoi : le visiteur voit un récapitulatif de

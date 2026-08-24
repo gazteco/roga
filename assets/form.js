@@ -256,8 +256,19 @@
 		function drawReview() {
 			var card = el( 'div', { class: 'roga-card roga-review' } );
 
-			card.appendChild( el( 'h2', { class: 'roga-title', text: T.reviewTitle || 'Vérifiez vos réponses' } ) );
-			card.appendChild( el( 'p', { class: 'roga-desc', text: T.reviewDesc || '' } ) );
+			// Header : titre, description et bouton d'envoi rapide en haut.
+			var header = el( 'div', { class: 'roga-review-header' } );
+			header.appendChild( el( 'h2', { class: 'roga-title', text: T.reviewTitle || 'Vérifiez vos réponses' } ) );
+			header.appendChild( el( 'p', { class: 'roga-desc', text: T.reviewDesc || '' } ) );
+			header.appendChild( el( 'div', { class: 'roga-review-top-actions' }, [
+				el( 'button', {
+					type: 'button',
+					class: 'roga-btn',
+					text: config.submit || T.ok || 'Envoyer',
+					onclick: submit,
+				} ),
+			] ) );
+			card.appendChild( header );
 
 			var list = el( 'dl', { class: 'roga-review-list' } );
 			var visible = visibleFields();
@@ -292,20 +303,21 @@
 
 			card.appendChild( list );
 
-			var nav = el( 'div', { class: 'roga-nav' } );
-			nav.appendChild( el( 'button', {
+			// Sticky footer : reste visible en bas d'écran pendant le scroll.
+			var footer = el( 'div', { class: 'roga-review-footer' } );
+			footer.appendChild( el( 'button', {
 				type: 'button',
 				class: 'roga-btn',
 				text: config.submit || T.ok || 'Envoyer',
 				onclick: submit,
 			} ) );
-			nav.appendChild( el( 'button', {
+			footer.appendChild( el( 'button', {
 				type: 'button',
 				class: 'roga-btn roga-btn-ghost',
 				text: '↑ ' + ( T.back || 'Retour' ),
 				onclick: back,
 			} ) );
-			card.appendChild( nav );
+			card.appendChild( footer );
 
 			if ( config.rgpd ) {
 				card.appendChild( el( 'p', { class: 'roga-rgpd', text: config.rgpd } ) );

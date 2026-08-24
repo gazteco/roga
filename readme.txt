@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,13 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.5 =
+* Correction (suite de 1.3.4) : la contrainte de largeur qui limitait la
+  synthèse à 640 px venait en réalité du container .roga-stage, pas de la
+  card. Elle est maintenant levée spécifiquement quand le stage contient
+  une review, via le sélecteur CSS :has(). La synthèse s'étire désormais
+  vraiment sur toute la largeur disponible dans son container.
 
 = 1.3.4 =
 * Écran de vérification : la synthèse utilise maintenant toute la largeur

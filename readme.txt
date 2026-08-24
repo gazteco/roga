@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,15 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.9 =
+* Mobile : chaque ligne de la synthèse est nettement plus compacte. Le
+  bouton crayon (Modifier) forçait auparavant la hauteur du flex parent
+  à 32 px minimum, laissant beaucoup d'espace blanc en dessous des
+  réponses courtes. Il est désormais positionné en absolute à droite,
+  centré verticalement, et ne pousse plus la hauteur de la ligne.
+  Padding vertical réduit à 8 px et label serré à 0.78em avec line-height
+  1.3 : chaque entrée fait à peu près la moitié de sa hauteur précédente.
 
 = 1.3.8 =
 * Mobile : sur l'écran de vérification, chaque réponse est désormais tronquée

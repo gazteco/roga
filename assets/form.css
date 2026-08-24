@@ -471,53 +471,54 @@ select.roga-input { padding-right: 24px; }
 
 @media (max-width: 600px) {
 	.roga-review-row {
-		/* Sortie du grid : layout stack compact en 2 lignes visuelles. */
+		/* Layout : label au-dessus, valeur en dessous, crayon en absolute
+		   a droite (ne prend pas de hauteur dans le flow). */
 		display: block;
 		gap: 0;
-		padding: 12px 2px;
+		padding: 8px 40px 8px 2px;
+		position: relative;
 	}
 	.roga-review-label {
 		display: block;
-		font-size: 0.8em;
+		font-size: 0.78em;
 		color: var(--roga-muted);
 		font-weight: 600;
-		margin-bottom: 4px;
+		margin-bottom: 2px;
+		line-height: 1.3;
 	}
-	/* En desktop .roga-review-value est display: contents pour laisser ses
-	   enfants participer au grid parent. Sur mobile on le remet en flex row
-	   pour poser la valeur a gauche et le bouton Modifier a droite. */
+	/* On revient a un block simple : la valeur occupe toute la largeur du
+	   padding disponible (40px reserves a droite pour le crayon). */
 	.roga-review-value {
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 12px;
+		display: block;
 	}
 	.roga-review-answer {
-		flex: 1 1 auto;
-		min-width: 0;
-		/* Tronque a 2 lignes avec ellipsis pour garder chaque ligne compacte.
-		   La reponse complete reste accessible en cliquant Modifier. */
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		line-height: 1.35;
+		min-width: 0;
 	}
-	/* Bouton Modifier devient un cercle icone sur mobile. */
+	/* Bouton Modifier = petit cercle icone flottant a droite, aligne
+	   verticalement sur la row entiere. */
 	.roga-review-edit {
-		flex: 0 0 auto;
-		justify-self: initial;
-		text-decoration: none !important;
-		padding: 0;
-		width: 32px;
-		height: 32px;
+		position: absolute;
+		right: 2px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 30px;
+		height: 30px;
 		border-radius: 50%;
+		padding: 0;
 		border: 1px solid color-mix(in srgb, var(--roga-accent) 30%, transparent) !important;
 		background: transparent;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		text-decoration: none !important;
+		flex: none;
 	}
 	.roga-review-edit-label { display: none; }
 	.roga-review-edit-icon { display: inline-flex; }

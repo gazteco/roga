@@ -33,6 +33,13 @@
 	max-width: 640px;
 }
 
+/* Sur l'écran de synthèse, le tableau récapitulatif a besoin de toute la
+   largeur disponible du container. On lève la contrainte des 640 px qui
+   sert à garder les questions lisibles. */
+.roga-stage:has(.roga-review) {
+	max-width: none;
+}
+
 .roga-card {
 	animation: roga-in 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }

@@ -468,6 +468,106 @@
 
 	/* ---------- other tabs ---------- */
 
+	function renderLogoPicker( w ) {
+		var box = el( 'div', { class: 'roga-field roga-logo' } );
+
+		box.appendChild( el( 'label', { class: 'roga-label', text: 'Logo affiché au-dessus du titre' } ) );
+
+		var preview = el( 'div', { class: 'roga-logo-preview' } );
+
+		function refresh() {
+			preview.innerHTML = '';
+			if ( w.logo_url ) {
+				var img = el( 'img', { src: w.logo_url, alt: w.logo_alt || '' } );
+				img.style.maxHeight = ( w.logo_height || 80 ) + 'px';
+				preview.appendChild( img );
+			} else {
+				preview.appendChild( el( 'span', { class: 'roga-logo-empty', text: 'Aucun logo pour le moment.' } ) );
+			}
+		}
+
+		var actions = el( 'div', { class: 'roga-logo-actions' } );
+
+		actions.appendChild(
+			el( 'button', {
+				type: 'button',
+				class: 'button',
+				text: w.logo_url ? 'Changer le logo' : 'Choisir un logo dans la médiathèque',
+				onclick: function () {
+					if ( ! window.wp || ! window.wp.media ) {
+						window.alert( 'La médiathèque WordPress est indisponible. Rechargez la page et réessayez.' );
+						return;
+					}
+					var frame = window.wp.media( {
+						title: 'Choisir un logo',
+						button: { text: 'Utiliser ce logo' },
+						library: { type: 'image' },
+						multiple: false,
+					} );
+					frame.on( 'select', function () {
+						var attachment = frame.state().get( 'selection' ).first().toJSON();
+						w.logo_url = attachment.url || '';
+						if ( ! w.logo_alt && attachment.alt ) {
+							w.logo_alt = attachment.alt;
+						}
+						render();
+					} );
+					frame.open();
+				},
+			} )
+		);
+
+		if ( w.logo_url ) {
+			actions.appendChild(
+				el( 'button', {
+					type: 'button',
+					class: 'button roga-danger',
+					text: 'Retirer',
+					onclick: function () {
+						w.logo_url = '';
+						w.logo_alt = '';
+						render();
+					},
+				} )
+			);
+		}
+
+		box.appendChild( preview );
+		box.appendChild( actions );
+
+		if ( w.logo_url ) {
+			box.appendChild(
+				field(
+					'Texte alternatif (lu par les lecteurs d\'écran)',
+					input( w.logo_alt || '', function ( v ) { w.logo_alt = v; } )
+				)
+			);
+
+			var heightRow = el( 'div', { class: 'roga-logo-height' } );
+			heightRow.appendChild( el( 'span', { class: 'roga-label', text: 'Hauteur affichée' } ) );
+
+			var slider = el( 'input', { type: 'range', min: 24, max: 240, step: 4, value: w.logo_height || 80 } );
+			var valLbl = el( 'span', { class: 'roga-logo-value', text: ( w.logo_height || 80 ) + ' px' } );
+
+			slider.addEventListener( 'input', function ( e ) {
+				w.logo_height = parseInt( e.target.value, 10 ) || 80;
+				valLbl.textContent = w.logo_height + ' px';
+				var img = preview.querySelector( 'img' );
+				if ( img ) {
+					img.style.maxHeight = w.logo_height + 'px';
+				}
+			} );
+
+			heightRow.appendChild( slider );
+			heightRow.appendChild( valLbl );
+			box.appendChild( heightRow );
+		}
+
+		refresh();
+
+		return box;
+	}
+
 	function renderScreens() {
 		var w = state.welcome;
 		var t = state.thankyou;
@@ -480,6 +580,7 @@
 		box.appendChild( field( 'Titre', input( w.title, function ( v ) { w.title = v; } ) ) );
 		box.appendChild( field( 'Texte', textarea( w.description, function ( v ) { w.description = v; }, 4 ) ) );
 		box.appendChild( field( 'Libellé du bouton', input( w.button, function ( v ) { w.button = v; } ) ) );
+		box.appendChild( renderLogoPicker( w ) );
 
 		box.appendChild( el( 'h3', { text: 'Écran de remerciement' } ) );
 		box.appendChild( field( 'Titre', input( t.title, function ( v ) { t.title = v; } ) ) );

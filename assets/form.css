@@ -111,10 +111,8 @@
 }
 
 .roga-opt:hover {
-	color: var(--roga-text);
 	background: color-mix(in srgb, var(--roga-accent) 8%, transparent);
 	border-color: var(--roga-accent);
-	box-shadow: none;
 }
 
 .roga-opt:focus-visible {
@@ -222,7 +220,7 @@ select.roga-input { padding-right: 24px; }
 	transition: filter 140ms ease, transform 140ms ease;
 }
 
-.roga-btn:hover { filter: brightness(1.12); color: var(--roga-onaccent); background: var(--roga-accent); box-shadow: none; }
+.roga-btn:hover { filter: brightness(1.12); }
 .roga-btn:active { transform: translateY(1px); }
 
 .roga-btn:focus-visible {
@@ -295,92 +293,6 @@ select.roga-input { padding-right: 24px; }
 
 .roga-welcome .roga-btn { margin-top: 24px; }
 
-/* Theme hardening (1.1.2)
-   Beaucoup de thèmes stylent globalement `button:hover/focus/active` et
-   `input[type=text]` (couleur, hauteur fixe, margin-bottom). Ces règles, plus
-   spécifiques, garantissent le rendu de Roga quel que soit le thème. */
-
-.roga-root button.roga-opt:hover,
-.roga-root button.roga-opt:focus,
-.roga-root button.roga-opt:focus-visible,
-.roga-root button.roga-opt:active {
-	color: var(--roga-text);
-	background: color-mix(in srgb, var(--roga-accent) 8%, transparent);
-	border-color: var(--roga-accent);
-	box-shadow: none;
-	transform: none;
-}
-
-.roga-root button.roga-opt.is-selected,
-.roga-root button.roga-opt.is-selected:hover,
-.roga-root button.roga-opt.is-selected:focus,
-.roga-root button.roga-opt.is-selected:active {
-	color: var(--roga-onaccent);
-	background: var(--roga-accent);
-	border-color: var(--roga-accent);
-	box-shadow: none;
-}
-
-.roga-root button.roga-btn,
-.roga-root button.roga-btn:hover,
-.roga-root button.roga-btn:focus,
-.roga-root button.roga-btn:active {
-	height: auto;
-	color: var(--roga-onaccent);
-	background: var(--roga-accent);
-	border-color: var(--roga-accent);
-	box-shadow: none;
-}
-
-.roga-root button.roga-btn-ghost,
-.roga-root button.roga-btn-ghost:hover,
-.roga-root button.roga-btn-ghost:focus,
-.roga-root button.roga-btn-ghost:active {
-	color: var(--roga-accent);
-	background: transparent;
-	border-color: transparent;
-	box-shadow: none;
-	filter: none;
-}
-
-.roga-root input.roga-input,
-.roga-root input.roga-input[type="text"],
-.roga-root input.roga-input[type="email"],
-.roga-root input.roga-input[type="tel"],
-.roga-root input.roga-input[type="number"],
-.roga-root input.roga-input[type="date"],
-.roga-root select.roga-input,
-.roga-root textarea.roga-input {
-	display: block;
-	height: auto;
-	min-height: 0;
-	max-width: none;
-	margin: 0;
-	padding: 12px 4px;
-	border: 0;
-	border-bottom: 2px solid color-mix(in srgb, var(--roga-accent) 30%, transparent);
-	border-radius: 0;
-	box-shadow: none;
-	line-height: 1.4;
-	background: transparent;
-	color: var(--roga-text);
-}
-
-.roga-root input.roga-input:focus,
-.roga-root select.roga-input:focus,
-.roga-root textarea.roga-input:focus {
-	outline: none;
-	border-bottom-color: var(--roga-accent);
-	box-shadow: none;
-}
-
-.roga-root .roga-other-wrap input.roga-other {
-	margin: 0;
-	padding: 12px 4px 12px 0;
-	border: 0;
-	border-radius: 0;
-}
-
 /* Small screens */
 
 @media (max-width: 600px) {
@@ -405,4 +317,11 @@ select.roga-input { padding-right: 24px; }
 	width: 100%;
 	padding: 8px;
 	margin-top: 4px;
+}
+
+.roga-welcome .roga-logo {
+	display: block;
+	max-width: 100%;
+	margin: 0 0 20px;
+	height: auto;
 }

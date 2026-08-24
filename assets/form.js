@@ -160,7 +160,19 @@
 
 		function drawWelcome() {
 			var w    = config.welcome;
+			var logo = null;
+
+			if ( w.logo_url ) {
+				logo = el( 'img', {
+					class: 'roga-logo',
+					src: w.logo_url,
+					alt: w.logo_alt || '',
+				} );
+				logo.style.maxHeight = ( w.logo_height || 80 ) + 'px';
+			}
+
 			var card = el( 'div', { class: 'roga-card roga-welcome' }, [
+				logo,
 				el( 'h2', { class: 'roga-title', text: w.title } ),
 				w.description ? el( 'p', { class: 'roga-desc', text: w.description } ) : null,
 				el( 'button', {

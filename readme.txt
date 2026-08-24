@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.4
+Stable tag: 1.2.0
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -31,6 +31,7 @@ Fonctionnalités :
   site client à l'autre.
 * Notification par e-mail à chaque demande, avec réponse directe au visiteur.
 * Accusé de réception automatique récapitulant les réponses.
+* Logo sur l'écran d'accueil, choisi dans la médiathèque WordPress.
 * Mises à jour en un clic depuis GitHub Releases, comme n'importe quelle
   extension du répertoire officiel.
 * Navigation au clavier : lettres pour les choix, Entrée pour avancer.
@@ -98,6 +99,10 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.2.0 =
+* Logo sur l'écran d'accueil : sélection depuis la médiathèque WordPress,
+  hauteur réglable, texte alternatif pour les lecteurs d'écran.
 
 = 1.1.4 =
 * Correction : les mises à jour n'étaient pas détectées sur hébergement

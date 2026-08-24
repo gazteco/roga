@@ -73,7 +73,9 @@ class ROGA_Admin {
 		$editing = isset( $_GET['page'] ) && 'roga' === $_GET['page'] && isset( $_GET['form'] );
 
 		if ( $editing ) {
-			wp_enqueue_script( 'roga-admin', ROGA_URL . 'assets/admin.js', array(), ROGA_VERSION, true );
+			// The welcome-screen logo picker uses the WordPress media library.
+			wp_enqueue_media();
+			wp_enqueue_script( 'roga-admin', ROGA_URL . 'assets/admin.js', array( 'jquery' ), ROGA_VERSION, true );
 			wp_localize_script(
 				'roga-admin',
 				'ROGA_ADMIN',

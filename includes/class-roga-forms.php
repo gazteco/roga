@@ -82,6 +82,9 @@ class ROGA_Forms {
 				'title'       => __( 'Bonjour !', 'roga' ),
 				'description' => __( 'Ce court formulaire prend moins de deux minutes.', 'roga' ),
 				'button'      => __( 'Commencer', 'roga' ),
+				'logo_url'    => '',
+				'logo_alt'    => '',
+				'logo_height' => 80,
 			),
 			'thankyou' => array(
 				'title'       => __( 'Merci de votre réponse !', 'roga' ),
@@ -224,11 +227,17 @@ class ROGA_Forms {
 		$config = self::merge_defaults( is_array( $config ) ? $config : array() );
 		$out    = self::default_config();
 
+		$logo_height = isset( $config['welcome']['logo_height'] ) ? (int) $config['welcome']['logo_height'] : 80;
+		$logo_height = max( 24, min( 240, $logo_height ) );
+
 		$out['welcome'] = array(
 			'enabled'     => ! empty( $config['welcome']['enabled'] ),
 			'title'       => sanitize_text_field( $config['welcome']['title'] ),
 			'description' => sanitize_textarea_field( $config['welcome']['description'] ),
 			'button'      => sanitize_text_field( $config['welcome']['button'] ),
+			'logo_url'    => esc_url_raw( isset( $config['welcome']['logo_url'] ) ? $config['welcome']['logo_url'] : '' ),
+			'logo_alt'    => sanitize_text_field( isset( $config['welcome']['logo_alt'] ) ? $config['welcome']['logo_alt'] : '' ),
+			'logo_height' => $logo_height,
 		);
 
 		$out['thankyou'] = array(

@@ -304,10 +304,17 @@ select.roga-input { padding-right: 24px; }
 
 @media (max-width: 600px) {
 	.roga-root { padding: 28px 16px 56px; font-size: 16px; }
-	.roga-q-label { font-size: 21px; }
-	.roga-title { font-size: 24px; }
+	.roga-q-label { font-size: 20px; }
+	.roga-title { font-size: 22px; }
 	.roga-input { font-size: 17px; }
 	.roga-opt-key { display: none; }
+	/* Sur mobile, les modalites (options a choix) sont rendues plus discretes
+	   pour ne pas ecraser visuellement l'intitule de la question et sa
+	   description. Meme taille de police que la description. */
+	.roga-opt {
+		font-size: 15px;
+		padding: 10px 14px;
+	}
 }
 
 /* No-JavaScript fallback */
@@ -455,11 +462,36 @@ select.roga-input { padding-right: 24px; }
 
 @media (max-width: 600px) {
 	.roga-review-row {
-		grid-template-columns: 1fr;
-		gap: 4px;
-		padding: 10px 2px;
+		/* Sortie du grid : layout stack compact en 2 lignes visuelles. */
+		display: block;
+		gap: 0;
+		padding: 12px 2px;
 	}
-	.roga-review-label { font-size: 0.85em; color: var(--roga-muted); font-weight: 600; }
+	.roga-review-label {
+		display: block;
+		font-size: 0.8em;
+		color: var(--roga-muted);
+		font-weight: 600;
+		margin-bottom: 4px;
+	}
+	/* En desktop .roga-review-value est display: contents pour laisser ses
+	   enfants participer au grid parent. Sur mobile on le remet en flex row
+	   pour poser la valeur a gauche et le bouton Modifier a droite. */
+	.roga-review-value {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 12px;
+	}
+	.roga-review-answer {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+	.roga-review-edit {
+		flex: 0 0 auto;
+		justify-self: initial;
+		font-size: 0.85em;
+	}
 	.roga-review-footer { margin: 20px -16px 0; padding: 12px 16px; }
 }
 

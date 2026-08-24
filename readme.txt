@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,16 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.7 =
+* Mobile : les modalités d'une question à choix passent en 15 px (au lieu
+  de 16 px) et leur padding est réduit, pour ne plus dominer visuellement
+  l'intitulé de la question et sa description. Le titre de la question
+  passe de 21 px à 20 px pour aller dans le même sens.
+* Mobile : l'écran de vérification adopte un layout compact en deux lignes
+  par ligne (label en petit gris au-dessus, valeur à gauche et bouton
+  Modifier à droite en dessous), au lieu de trois éléments empilés
+  verticalement. Chaque ligne devient nettement plus courte.
 
 = 1.3.6 =
 * Correction : sur mobile, les options d'une question à choix pouvaient se

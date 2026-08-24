@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,14 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.6 =
+* Correction : sur mobile, les options d'une question à choix pouvaient se
+  chevaucher verticalement. Le spacing entre options reposait sur un margin
+  qui pouvait être écrasé par une règle globale du thème (typiquement
+  `.elementor-widget button { margin: 0 }` sur les breakpoints tablette
+  et mobile). Le margin est désormais imposé avec !important dans le bloc
+  de hardening, comme les couleurs.
 
 = 1.3.5 =
 * Correction (suite de 1.3.4) : la contrainte de largeur qui limitait la

@@ -504,6 +504,10 @@ select.roga-input { padding-right: 24px; }
 	color: var(--roga-text) !important;
 	border: 1.5px solid color-mix(in srgb, var(--roga-accent) 35%, transparent) !important;
 	box-shadow: none !important;
+	/* Spacing entre les options : certains thèmes forcent margin: 0 sur les
+	   <button> (notamment via .elementor-widget button ou une regle mobile),
+	   ce qui fait se chevaucher les options. On rétablit le spacing en dur. */
+	margin: 0 0 10px !important;
 }
 
 .roga-root button.roga-opt:hover,

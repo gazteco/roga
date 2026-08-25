@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.10
+Stable tag: 1.3.11
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,15 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.11 =
+* Correction du chevauchement des options : le fix précédent (1.3.10)
+  ajoutait un overflow: hidden pour empêcher le débordement, mais cela
+  tronquait le texte des options multi-lignes. Le vrai fix est plus simple :
+  garder align-items: flex-start et line-height: 1.4 comme dans 1.3.10,
+  sans overflow. Le cadre grandit naturellement pour contenir tout le
+  texte, et il n'y a plus de débordement puisque le contenu tient dans
+  son cadre.
 
 = 1.3.10 =
 * Correction : sur mobile, quand une option de question à choix contenait

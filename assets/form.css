@@ -380,8 +380,8 @@ select.roga-input { padding-right: 24px; }
 	display: grid;
 	/* 3 colonnes : label 45%, valeur remplit le reste, bouton Modifier au bout. */
 	grid-template-columns: 45% 1fr auto;
-	gap: 16px;
-	padding: 12px 4px;
+	gap: 12px;
+	padding: 8px 4px;
 	border: 0;
 	border-bottom: 1px solid color-mix(in srgb, var(--roga-muted) 25%, transparent);
 	background: transparent;
@@ -396,7 +396,7 @@ select.roga-input { padding-right: 24px; }
 	font-weight: 600;
 	color: var(--roga-text);
 	line-height: 1.35;
-	font-size: 0.95em;
+	font-size: 0.9em;
 	min-width: 0;
 }
 

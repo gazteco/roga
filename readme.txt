@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.12
+Stable tag: 1.3.13
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,13 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.13 =
+* Desktop : compaction de l'ecran de verification. Padding vertical
+  reduit de 12 a 8 px, gap entre colonnes reduit de 16 a 12 px, taille
+  du label reduite de 0.95em a 0.9em. Chaque ligne prend maintenant
+  environ 30 pourcents de moins de hauteur, ce qui permet d'afficher
+  plus de reponses d'un coup et donne un rendu tableau plus propre.
 
 = 1.3.12 =
 * Fix definitif du chevauchement/debordement des options : le cadre etait

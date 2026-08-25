@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.11
+Stable tag: 1.3.12
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,14 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.12 =
+* Fix definitif du chevauchement/debordement des options : le cadre etait
+  ecrase a une hauteur fixe (~54 px) par une regle du theme, coupant le
+  contenu multi-lignes. Le hardening impose desormais height: auto,
+  min-height: 0, max-height: none, line-height: 1.4, align-items:
+  flex-start et overflow: visible en !important. Aucun theme ne peut plus
+  forcer une hauteur ou un cropping sur les cadres d'options.
 
 = 1.3.11 =
 * Correction du chevauchement des options : le fix précédent (1.3.10)

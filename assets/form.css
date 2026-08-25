@@ -566,6 +566,17 @@ select.roga-input { padding-right: 24px; }
 	   <button> (notamment via .elementor-widget button ou une regle mobile),
 	   ce qui fait se chevaucher les options. On rétablit le spacing en dur. */
 	margin: 0 0 14px !important;
+	/* Certains themes appliquent aussi height: fixe, min-height, ou
+	   align-items: center sur les <button>, ce qui coupe le contenu
+	   multi-lignes. On impose ici les valeurs qui garantissent que le cadre
+	   s'adapte a son contenu et qu'aucun texte ne deborde ni ne se fait
+	   couper. */
+	height: auto !important;
+	min-height: 0 !important;
+	max-height: none !important;
+	line-height: 1.4 !important;
+	align-items: flex-start !important;
+	overflow: visible !important;
 }
 
 .roga-root button.roga-opt:hover,

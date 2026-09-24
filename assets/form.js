@@ -573,6 +573,24 @@
 
 		/* ----- submit ----- */
 
+		// Fetches a fresh nonce from a live (never cached) endpoint just before
+		// submitting. Falls back to the nonce embedded in the page if the call
+		// fails, so submission still works when nothing has been cached.
+		function getFreshNonce() {
+			if ( ! CFG.nonce_endpoint ) {
+				return Promise.resolve( CFG.nonce );
+			}
+			return window.fetch( CFG.nonce_endpoint, {
+				method: 'GET',
+				headers: { 'Accept': 'application/json' },
+				cache: 'no-store',
+				credentials: 'same-origin',
+			} )
+				.then( function ( r ) { return r.ok ? r.json() : null; } )
+				.then( function ( d ) { return ( d && d.nonce ) ? d.nonce : CFG.nonce; } )
+				.catch( function () { return CFG.nonce; } );
+		}
+
 		function submit() {
 			if ( sending ) {
 				return;
@@ -589,13 +607,15 @@
 				page: window.location.href,
 			};
 
-			window.fetch( CFG.endpoint, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-WP-Nonce': CFG.nonce,
-				},
-				body: JSON.stringify( payload ),
+			getFreshNonce().then( function ( nonce ) {
+				return window.fetch( CFG.endpoint, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-WP-Nonce': nonce,
+					},
+					body: JSON.stringify( payload ),
+				} );
 			} )
 				.then( function ( response ) {
 					return response.json().then( function ( body ) {

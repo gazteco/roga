@@ -35,6 +35,32 @@ class ROGA_Rest {
 				),
 			)
 		);
+
+		// Returns a freshly minted nonce. This route is never cached by full-page
+		// cache plugins, so the token it hands out is always within its validity
+		// window, even when the form page itself is served from cache.
+		register_rest_route(
+			'roga/v1',
+			'/nonce',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( __CLASS__, 'nonce' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * Hands out a fresh wp_rest nonce for the submission request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public static function nonce() {
+		$response = new WP_REST_Response( array( 'nonce' => wp_create_nonce( 'wp_rest' ) ), 200 );
+		// Make doubly sure no proxy or cache layer stores this response.
+		$response->header( 'Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0' );
+
+		return $response;
 	}
 
 	/**

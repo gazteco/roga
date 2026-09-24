@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.13
+Stable tag: 1.3.14
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,18 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.14 =
+* Correctif majeur de compatibilite avec le cache de page. Le jeton de
+  securite (nonce) etait integre dans le HTML mis en cache et expirait
+  au bout de 24 h : sur un site avec cache de page (WP Fastest Cache,
+  WP Rocket, LiteSpeed...), toute demande envoyee depuis une page en
+  cache plus ancienne etait rejetee par WordPress avec le message
+  "Echec de la verification du cookie", sans enregistrement ni e-mail.
+  Le formulaire recupere desormais un jeton frais via un nouveau point
+  d'acces REST (roga/v1/nonce) juste avant l'envoi, ce qui rend Roga
+  insensible au cache sans exclusion de page a configurer. Repli sur le
+  jeton de la page si l'appel echoue.
 
 = 1.3.13 =
 * Desktop : compaction de l'ecran de verification. Padding vertical

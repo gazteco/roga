@@ -70,6 +70,9 @@ class ROGA_Render {
 			array(
 				'endpoint' => esc_url_raw( rest_url( 'roga/v1/submit' ) ),
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
+				// Live endpoint used to fetch a fresh nonce just before submit, so a
+				// page served from a full-page cache never submits a stale nonce.
+				'nonce_endpoint' => esc_url_raw( rest_url( 'roga/v1/nonce' ) ),
 				'i18n'     => array(
 					'required'  => __( 'Cette réponse est nécessaire pour continuer.', 'roga' ),
 					'email'     => __( 'Cette adresse e-mail ne semble pas valide.', 'roga' ),

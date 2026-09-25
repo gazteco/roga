@@ -714,27 +714,59 @@
 		draw();
 	}
 
-	// When the page is opened on an anchor whose element wraps a form
-	// (e.g. a "Demander un devis" link pointing to #devis), bring that
-	// section into view once the page is ready. Honours any CSS
-	// scroll-margin-top set on the target. Runs again on window load and
-	// shortly after, to correct the offset caused by lazy-loaded images
-	// shifting the layout after the initial jump.
-	function revealFromHash() {
-		var hash = location.hash;
-		if ( ! hash || hash.length < 2 ) {
+	// Walking up from the form, the nearest ancestor (form root included)
+	// that carries a CSS scroll-margin-top. That margin is the site's
+	// explicit signal that this element is an anchor landing with a
+	// prepared offset, so it is what we scroll to. Returns null when none
+	// opts in.
+	function preparedTarget( root ) {
+		var node = root;
+		while ( node && node !== document.body ) {
+			if ( ( parseFloat( getComputedStyle( node ).scrollMarginTop ) || 0 ) > 0 ) {
+				return node;
+			}
+			node = node.parentElement;
+		}
+		return null;
+	}
+
+	// Bring the form into view when the page is opened on it. Two cases:
+	//   1. the URL hash targets the element wrapping a form (e.g. a
+	//      "Demander un devis" link pointing to #devis);
+	//   2. no such hash, the page holds a single form, and one of its
+	//      ancestors opts in with a CSS scroll-margin-top (the site has
+	//      prepared a landing offset) — this covers links that point at
+	//      the page without the fragment.
+	// The scroll honours that scroll-margin-top, so the heading above the
+	// form stays visible. Re-run on window load and shortly after, to
+	// correct the offset caused by lazy-loaded images shifting the layout.
+	function revealForm() {
+		var roots  = document.querySelectorAll( '.roga-root[data-roga-config]' );
+		var target = null;
+		var hash   = location.hash && location.hash.length > 1 ? location.hash.slice( 1 ) : '';
+
+		if ( hash ) {
+			var byHash;
+			try {
+				byHash = document.getElementById( decodeURIComponent( hash ) );
+			} catch ( e ) {
+				byHash = document.getElementById( hash );
+			}
+			if ( byHash && byHash.querySelector( '.roga-root' ) ) {
+				target = byHash;
+			}
+		}
+
+		if ( ! target && 1 === roots.length ) {
+			target = preparedTarget( roots[ 0 ] );
+		}
+
+		if ( ! target ) {
 			return;
 		}
-		var target;
-		try {
-			target = document.getElementById( decodeURIComponent( hash.slice( 1 ) ) );
-		} catch ( e ) {
-			target = document.getElementById( hash.slice( 1 ) );
+		if ( target.getBoundingClientRect().top > 80 ) {
+			target.scrollIntoView();
 		}
-		if ( ! target || ! target.querySelector( '.roga-root' ) ) {
-			return;
-		}
-		target.scrollIntoView();
 	}
 
 	function boot() {
@@ -745,13 +777,11 @@
 			}
 		} );
 
-		if ( location.hash ) {
-			revealFromHash();
-			window.addEventListener( 'load', function () {
-				revealFromHash();
-				setTimeout( revealFromHash, 350 );
-			} );
-		}
+		revealForm();
+		window.addEventListener( 'load', function () {
+			revealForm();
+			setTimeout( revealForm, 350 );
+		} );
 	}
 
 	if ( 'loading' === document.readyState ) {

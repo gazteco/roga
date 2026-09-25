@@ -3,7 +3,7 @@ Contributors: gazteco
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.3.16
+Stable tag: 1.3.17
 License: GPLv2 or later
 
 Conversational forms that ask one question at a time: branching logic, stored
@@ -99,6 +99,9 @@ Pour livrer le plugin sous une autre identité, deux filtres suffisent :
   le filtre `roga_pre_submit` et l'action `roga_after_submit`.
 
 == Changelog ==
+
+= 1.3.17 =
+* Mise en vue du formulaire elargie au cas sans fragment d'URL. Beaucoup de liens (boutons « Demander un devis » dupliques) pointent vers la page sans ancre #devis : desormais, si la page ne contient qu'un formulaire et qu'un de ses conteneurs porte un scroll-margin-top en CSS (le site a prepare un point d'arrivee), Roga amene ce conteneur a l'ecran au chargement, en respectant cette marge. Le cas avec ancre reste gere. Sans scroll-margin-top prepare, aucun defilement automatique.
 
 = 1.3.16 =
 * Lien d'ancre vers le formulaire : quand une page est ouverte via un lien pointant vers l'element qui contient le formulaire (par ex. un bouton « Demander un devis » vers #devis), Roga amene cette section a l'ecran une fois la page chargee. Corrige le cas ou l'ancre native ne defilait pas de facon fiable a cause des images en chargement differe. Respecte le scroll-margin-top defini en CSS sur la cible.

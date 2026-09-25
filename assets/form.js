@@ -714,6 +714,29 @@
 		draw();
 	}
 
+	// When the page is opened on an anchor whose element wraps a form
+	// (e.g. a "Demander un devis" link pointing to #devis), bring that
+	// section into view once the page is ready. Honours any CSS
+	// scroll-margin-top set on the target. Runs again on window load and
+	// shortly after, to correct the offset caused by lazy-loaded images
+	// shifting the layout after the initial jump.
+	function revealFromHash() {
+		var hash = location.hash;
+		if ( ! hash || hash.length < 2 ) {
+			return;
+		}
+		var target;
+		try {
+			target = document.getElementById( decodeURIComponent( hash.slice( 1 ) ) );
+		} catch ( e ) {
+			target = document.getElementById( hash.slice( 1 ) );
+		}
+		if ( ! target || ! target.querySelector( '.roga-root' ) ) {
+			return;
+		}
+		target.scrollIntoView();
+	}
+
 	function boot() {
 		Array.prototype.forEach.call( document.querySelectorAll( '.roga-root[data-roga-config]' ), function ( root ) {
 			if ( ! root.getAttribute( 'data-roga-ready' ) ) {
@@ -721,6 +744,14 @@
 				Form( root );
 			}
 		} );
+
+		if ( location.hash ) {
+			revealFromHash();
+			window.addEventListener( 'load', function () {
+				revealFromHash();
+				setTimeout( revealFromHash, 350 );
+			} );
+		}
 	}
 
 	if ( 'loading' === document.readyState ) {

@@ -228,7 +228,7 @@
 				} ),
 			] );
 			stage.appendChild( card );
-			card.querySelector( 'button' ).focus();
+			card.querySelector( 'button' ).focus( { preventScroll: true } );
 		}
 
 		function drawThankyou( ty ) {
